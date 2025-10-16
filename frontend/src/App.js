@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Portfolio from "./pages/Portfolio";
+import Setup from "./pages/Setup";
 
 function App() {
-  const isAuthenticated = localStorage.getItem("token"); // check JWT from login
+  const isAuthenticated = localStorage.getItem("token");
 
   return (
     <Router>
@@ -16,11 +17,18 @@ function App() {
         {/* Login route */}
         <Route path="/login" element={<Login />} />
 
-        {/* Protected route → Only if logged in */}
+        {/* Portfolio route (Protected) */}
         <Route
           path="/portfolio"
           element={isAuthenticated ? <Portfolio /> : <Navigate to="/login" />}
         />
+
+        {/* Setup route (Protected) - THIS WAS MISSING */}
+        <Route
+          path="/setup"
+          element={isAuthenticated ? <Setup /> : <Navigate to="/login" />}
+        />
+        
       </Routes>
     </Router>
   );

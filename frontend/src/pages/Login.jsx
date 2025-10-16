@@ -6,30 +6,44 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // handle login form submission
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
     try {
-      // send login data to backend
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+        // send login data to backend
+        const res = await axios.post("http://localhost:5000/api/auth/login", {
+            email,
+            password,
+        });
 
-      // store token and user info locally
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+        // Destructure the response data for easier access
+        const { token, user } = res.data;
 
-      // navigate to portfolio page after successful login
-      navigate("/portfolio");
+        // store token and user info locally
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // **CORRECTED LOGIC**
+        // Check the user object from the response
+        if (!user.bio) {
+            navigate("/setup");
+        } else {
+            navigate("/portfolio");
+        }
+        // The redundant navigate call is removed.
+
     } catch (err) {
-      console.error("Login error:", err);
-      alert("Invalid email or password");
+        console.error("Login error:", err);
+        alert("Invalid email or password");
+    } finally {
+        setLoading(false); // Stop loading in any case
     }
-  };
+};
 
   return (
     <div className="container mt-5" style={{ maxWidth: "400px" }}>
