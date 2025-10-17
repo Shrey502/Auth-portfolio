@@ -27,14 +27,15 @@ const Login = () => {
         // store token and user info locally
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
+        navigate("/portfolio");
 
         // **CORRECTED LOGIC**
         // Check the user object from the response
-        if (!user.bio) {
-            navigate("/setup");
-        } else {
-            navigate("/portfolio");
-        }
+        // if (!user.bio) {
+        //     navigate("/setup");
+        // } else {
+        //     navigate("/portfolio");
+        // }
         // The redundant navigate call is removed.
 
     } catch (err) {
