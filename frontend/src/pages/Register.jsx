@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Register() {
   const [name, setName] = useState("");
@@ -21,7 +22,7 @@ function Register() {
 
   return (
     <div className="container mt-5">
-      <h2>Register</h2>
+      <h2 className="text-center mb-4">Register</h2>
       <form onSubmit={handleRegister}>
         <div className="mb-3">
           <label>Name:</label>
@@ -37,7 +38,7 @@ function Register() {
         </div>
         <button type="submit" className="btn btn-success">Register</button>
       </form>
-      <p className="text-center mt-3">Already have an account? <a href="/login">Login</a></p>
+      <p className="text-center mt-3">Already have an account? <a href="/">Login</a></p>
     </div>
   );
 }

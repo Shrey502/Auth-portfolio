@@ -12,10 +12,10 @@ function App() {
     <Router>
       <Routes>
         {/* Default route → Register */}
-        <Route path="/" element={<Register />} />
+        <Route path="/" element={<Login />} />
 
         {/* Login route */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Portfolio route (Protected) */}
         <Route
