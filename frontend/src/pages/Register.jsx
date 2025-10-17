@@ -7,16 +7,37 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", { name, email, password });
-      alert("Registered successfully!");
+      // Attempt to register the new user
+      await axios.post("http://localhost:5000/api/auth/register", {
+        name,
+        email,
+        password,
+      });
+
+      // If successful, show a success message and redirect to login
+      alert("Registered successfully! Please log in.");
       navigate("/login");
+
     } catch (err) {
-      alert(err.response?.data?.msg || "Registration failed");
+      // THE NEW LOGIC - Check for the specific error message from the backend
+      if (err.response && err.response.data.msg === "User already exists") {
+        
+        // If the user exists, show the specific alert and redirect
+        alert("User already exists. Redirecting to login page.");
+        navigate("/");
+
+      } else {
+        // For any other error, show a generic message
+        alert(err.response?.data?.msg || "Registration failed. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
